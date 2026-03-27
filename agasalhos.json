@@ -1,0 +1,20 @@
+[
+    {
+        "Peca": "Agasalho",
+        "Sexo": "Masculino",
+        "Qualidade": "6/6",
+        "Tamanho": "G",
+        "Cor": "Azul",
+        "Marca": "Pumma",
+        "Doador": "Kleber"
+    },
+    {
+        "Peca": "Agasalho",
+        "Sexo": "Unisex",
+        "Qualidade": "5/6",
+        "Tamanho": "P",
+        "Cor": "Preta",
+        "Marca": "Pumma",
+        "Doador": "Galvão"
+    }
+]

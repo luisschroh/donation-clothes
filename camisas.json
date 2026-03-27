@@ -1,0 +1,38 @@
+[
+    {
+        "Peca": "Camisa",
+        "Sexo": "UniSex",
+        "Qualidade": "5/6",
+        "Tamanho": "P",
+        "Cor": "Azul",
+        "Marca": "Nike",
+        "Doador": "Regina"
+    },
+    {
+        "Peca": "Camisa",
+        "Sexo": "Feminino",
+        "Qualidade": "6/6",
+        "Tamanho": "M",
+        "Cor": "Rosa",
+        "Marca": "Pumma",
+        "Doador": "Agatha"
+    },
+    {
+        "Peca": "Camisa",
+        "Sexo": "Masculina",
+        "Qualidade": "6/6",
+        "Tamanho": "M",
+        "Cor": "Azul",
+        "Marca": "Pumma",
+        "Doador": "Gisele"
+    },
+    {
+        "Peca": "Camisa",
+        "Sexo": "Masculina",
+        "Qualidade": "6/6",
+        "Tamanho": "M",
+        "Cor": "Azul",
+        "Marca": "Pumma",
+        "Doador": "Gisele"
+    }
+]
