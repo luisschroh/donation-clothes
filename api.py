@@ -19,7 +19,7 @@ def criar_camisa():
 
     with open ('camisas.json', 'r') as f:
         camisas = json.load(f)
-
+        
     camisas.append(dados_camisa)
 
     with open('camisas.json', 'w') as f:
