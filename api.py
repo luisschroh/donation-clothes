@@ -1,11 +1,64 @@
 from flask import Flask, request, jsonify, render_template
 import json
 
-app = Flask(__name__)
+from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app)
+
+def carregar (arquivo):
+    with open (arquivo, 'r') as f:
+        return json.load(f)
+
+    
+def salvar (arquivo, object):
+    with open(arquivo, 'w') as f:
+        json.dump(object, f, indent=4)
+
+@app.get('/pecas-camisas/<int:id>') # localhost/pecas-camisas/1
+def get_camisa_pr_id(id):
+    camisas = carregar('camisas.json')
+
+    for camisa in camisas:
+        if camisa.get ('id') == id:
+            return jsonify (camisa), 200
+        
+    return jsonify({"mensagem": "Camisa não existe"}), 404
+
+@app.get('/pecas-calcas/<int:id>') 
+def get_calcas_pr_id(id):
+    calcas = carregar('calcas.json')
+
+    for calca in calcas:
+        if calca.get ('id') == id:
+            return jsonify (calca), 200
+        
+    return jsonify({"mensagem": "Calça não existe"}), 404
+
+@app.get('/pecas-sapatos/<int:id>')
+def get_sapatos_pr_id(id):
+    sapatos = carregar('sapatos.json')
+
+    for sapato in sapatos:
+        if sapato.get ('id') == id:
+            return jsonify (sapato), 200
+        
+    return jsonify({"mensagem": "Sapatos não existe"}), 404
+
+@app.get('/pecas-agasalhos/<int:id>')
+def get_agasalhos_pr_id(id):
+    agasalhos = carregar('agasalhos.json')
+
+    for agasalho in agasalhos:
+        if agasalho.get ('id') == id:
+            return jsonify (agasalho), 200
+        
+    return jsonify({"mensagem": "Agasalho não existe"}), 404
+    
 @app.post('/pecas-camisas')
 def criar_camisa():
     dados_camisa = request.json
+
 
     tamanhos_camisa= ['PP','P','M','G','GG']
     if dados_camisa.get('Tamanho') not in tamanhos_camisa:
@@ -15,11 +68,23 @@ def criar_camisa():
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
 
     if not dados_camisa.get('Peca')=="Camisa":
-        return jsonify({"mensagem" : "Nomear peça como camisa é obrigatório."}), 400
+        return jsonify({"mensagem" : "Nomear peça como camisa é obrigatório."}), 422
 
     with open ('camisas.json', 'r') as f:
         camisas = json.load(f)
-        
+
+    if dados_camisa is None:
+        return jsonify({"mensagem": "Campo Obrigatório"}),400
+
+    if not isinstance('Peca', str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
+
+    if not isinstance('Doador', str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
+
+    if not isinstance('Tamanho', str):
+        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),422
+
     camisas.append(dados_camisa)
 
     with open('camisas.json', 'w') as f:
@@ -47,6 +112,18 @@ def criar_sapatos():
 
     with open ('sapatos.json', 'r') as f:
         sapatos = json.load(f)
+
+    if dados_sapatos is None:
+        return jsonify({"mensagem": "Campo Obrigatório"}),400
+
+    if not isinstance('Peca', str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
+
+    if not isinstance('Doador', str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+
+    if not isinstance('Tamanho', int):
+        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser numero."}),400
 
     sapatos.append(dados_sapatos)
 
@@ -78,6 +155,18 @@ def criar_agasalhos():
 
     agasalhos.append(dados_agasalhos)
 
+    if dados_agasalhos is None:
+        return jsonify({"mensagem": "Campo Obrigatório"}),400
+
+    if not isinstance('Peca', str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
+
+    if not isinstance('Doador', str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+
+    if not isinstance('Tamanho', str):
+        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),400
+
     with open('agasalhos.json', 'w') as f:
         json.dump(agasalhos, f, indent=4)
 
@@ -106,6 +195,18 @@ def criar_calcas():
 
     calcas.append(dados_calcas)
 
+    if dados_calcas is None:
+        return jsonify({"mensagem": "Campo Obrigatório"}),400
+
+    if not isinstance('Peca', str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
+
+    if not isinstance('Doador', str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+
+    if not isinstance('Tamanho', int):
+        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser numero."}),400
+
     with open ('calcas.json', 'w') as f:
         json.dump(calcas, f, indent=4)
 
@@ -125,58 +226,294 @@ def pecas():
 
 @app.route("/pecas-camisas", methods=["GET"])
 def page_camisas():
-    with open ('camisas.json', 'r') as f:
-        return jsonify(json.load(f))
+    camisas = carregar('camisas.json')
+
+    cor = request.args.get('cor') #https://.../pecas-camisas?cor...
+    sexo = request.args.get('sexo')
+    tamanho = request.args.get ('tamanho')
+    qualidade = request.args.get ('qualidade')
+    marca = request.args.get ('marca')
+
+    resultado=[]
+    status=404
+
+    for camisa in camisas:
+        if cor and camisa.get('cor').lower() != cor.lower():
+            continue
+        if sexo and camisa.get('sexo').lower() != sexo.lower():
+            continue
+        if qualidade and camisa.get('qualidade').lower() != qualidade.lower():
+            continue
+        if marca and camisa.get('marca').lower() != marca.lower():
+            continue
+        if tamanho and camisa.get('tamanho').lower() != tamanho.lower():
+            continue
+        
+        
+        resultado.append(camisa)
+        status=200
+
+    return jsonify(resultado), status
+
+
 
 @app.route("/pecas-calcas", methods=["GET"])
 def page_calcas ():
-    with open ('calcas.json', 'r') as f:
-        return jsonify(json.load(f))
+    calcas = carregar('calcas.json')
+
+    cor = request.args.get('cor') #https://.../pecas-calcas?cor...
+    sexo = request.args.get('sexo')
+    tamanho = request.args.get ('tamanho')
+    qualidade = request.args.get ('qualidade')
+    marca = request.args.get ('marca')
+
+    resultado=[]
+    status=404
+
+    for calca in calcas:
+        if cor and calca.get('cor').lower() != cor.lower():
+            continue
+        if sexo and calca.get('sexo').lower() != sexo.lower():
+            continue
+        if qualidade and calca.get('qualidade').lower() != qualidade.lower():
+            continue
+        if marca and calca.get('marca').lower() != marca.lower():
+            continue
+        if tamanho and calca.get('tamanho').lower() != tamanho.lower():
+            continue
+        
+        resultado.append(calca)
+        status=200
+
+    return jsonify(resultado), status
 
 @app.route("/pecas-sapatos", methods=["GET"])
 def page_sapatos():
-    with open ('sapatos.json', 'r') as f:
-        return jsonify(json.load(f))
+    sapatos = carregar('sapatos.json')
+
+    cor = request.args.get('cor') #https://.../pecas-camisas?cor...
+    sexo = request.args.get('sexo')
+    tamanho = request.args.get ('tamanho')
+    qualidade = request.args.get ('qualidade')
+    marca = request.args.get ('marca')
+
+    resultado=[]
+    status=404
+
+    for sapato in sapatos:
+        if cor and sapato.get('cor').lower() != cor.lower():
+            continue
+        if sexo and sapato.get('sexo').lower() != sexo.lower():
+            continue
+        if qualidade and sapato.get('qualidade').lower() != qualidade.lower():
+            continue
+        if marca and sapato.get('marca').lower() != marca.lower():
+            continue
+        if tamanho and sapato.get('tamanho').lower() != tamanho.lower():
+            continue
+        
+        resultado.append(sapato)
+        status=200
+
+    return jsonify(resultado), status
     
 @app.route("/pecas-agasalhos", methods=["GET"])
 def page_agasalhos():
-    with open ('agasalhos.json', 'r') as f:
-        return jsonify(json.load(f))
+    agasalhos = carregar('agasalhos.json')
+
+    cor = request.args.get('cor') #https://.../pecas-camisas?cor...
+    sexo = request.args.get('sexo')
+    tamanho = request.args.get ('tamanho')
+    qualidade = request.args.get ('qualidade')
+    marca = request.args.get ('marca')
+
+
+    resultado=[]
+    status=404
+
+    for agasalho in agasalhos:
+        if cor and agasalho.get('cor').lower() != cor.lower():
+            continue
+        if sexo and agasalho.get('sexo').lower() != sexo.lower():
+            continue
+        if qualidade and agasalho.get('qualidade').lower() != qualidade.lower():
+            continue
+        if marca and agasalho.get('marca').lower() != marca.lower():
+            continue
+        if tamanho and agasalho.get('tamanho').lower() != tamanho.lower():
+            continue
+        
+        resultado.append(agasalho)
+        status = 200
+
+    return jsonify(resultado), status
 
 @app.route("/pecas-tudo", methods=["GET"])
 def page_tudo():
-    try:
-        with open("camisas.json", "r", encoding="utf-8") as f:
-            camisas = json.load(f)
-        with open("calcas.json", "r", encoding="utf-8") as f:
-            calcas = json.load(f) 
+    tudo = []
+    for arquivo in ['camisas.json', 'calcas.json', 'sapatos.json', 'agasalhos.json']:
+        tudo.extend(carregar(arquivo))
+    
 
-        estoque_total = {
-            "camisas": camisas,
-            "calcas": calcas
-        }
-        return jsonify(estoque_total) 
+    peca = request.args.get('peca')
+    sexo = request.args.get('sexo')
+    cor = request.args.get ('cor')
+    tamanho = request.args.get ('tamanho')
+    qualidade = request.args.get ('qualidade')
+    marca = request.args.get ('marca')
 
-    except FileNotFoundError as e:
-        return jsonify({"erro": f"Arquivo nao encontrado: {e.filename}"}), 404
+    resultado=[]
+    status=404
 
+    for item in tudo:
+        if cor and item.get('cor').lower() != cor.lower():
+            continue
+        if sexo and item.get('sexo').lower() != sexo.lower():
+            continue
+        if peca and item.get('peca').lower() != peca.lower():
+            continue
+        if qualidade and item.get('qualidade').lower() != qualidade.lower():
+            continue
+        if marca and item.get('marca').lower() != marca.lower():
+            continue
+        if tamanho and item.get('tamanho').lower() != tamanho.lower():
+            continue
+        
+        resultado.append(item)
+        status=200
+    
+    return jsonify(resultado), status
+
+
+
+
+@app.put('/pecas-camisas/<int:id>')
+def atualizar_camisa(id):
+    camisas = carregar('camisas.json')
+    dados_camisas = request.json
+
+    #validações
+
+    for camisa in camisas:
+        if camisa.get ("id")== id:
+            camisa.update(dados_camisas)
+            salvar("camisas.json", camisas)
+            return jsonify({"mensagem":"ok"}), 200
+    return jsonify({"mensagem":"não encontrado"}),404
+
+@app.delete('/pecas-camisas/<int:id>')
+def deletar_camisa(id):
+    camisas = carregar("camisas.json")
+
+    for camisa in camisas:
+        if camisa.get('id')==id:
+            camisas.remove(camisa)
+            salvar("camisas.json", camisas)
+            return jsonify({"mensagem":"Deletado"}), 200
+    return jsonify ({"mensagem":"Não encontrado"}), 404
+    
+@app.put('/pecas-calcas/<int:id>')
+def atualizar_calcas(id):
+    calcas = carregar('calcas.json')
+    dados_calcas = request.json
+    
+    for calca in calcas:
+        if calca.get("id") == id:
+            calca.update(dados_calcas)
+            salvar("calcas.json", calcas)
+            return jsonify({"mensagem":"Ok"}), 200
+    return jsonify({"mensagem":"Não encontrado"}), 404
+    
+@app.delete('/pecas-calcas/<int:id>')
+def deletar_calcas(id):
+    calcas = carregar('calcas.json')
+    for calca in calcas:
+        if calca.get("id")==id:
+            calcas.remove(calca)
+            salvar("calcas.json", calcas)
+            return jsonify({"mensagem":"deletado!"}),200
+    return jsonify({"mensagem":"Não encontrado!"}),404
+
+
+@app.put('/pecas-sapatos/<int:id>')
+def atualizar_sapatos(id):
+    sapatos = carregar('sapatos.json')
+    dados_sapatos = request.json
+    
+    for sapato in sapatos:
+        if sapato.get("id") == id:
+            sapato.update(dados_sapatos)
+            salvar("sapatos.json", sapatos)
+            return jsonify({"mensagem":"Ok"}), 200
+    return jsonify({"mensagem":"Não encontrado"}), 404
+    
+@app.delete('/pecas-sapatos/<int:id>')
+def deletar_sapatos(id):
+    sapatos = carregar('sapatos.json')
+    for sapato in sapatos:
+        if sapato.get("id")==id:
+            sapatos.remove(sapato)
+            salvar("sapatos.json", sapatos)
+            return jsonify({"mensagem":"deletado!"}),200
+    return jsonify({"mensagem":"Não encontrado!"}),404
+
+@app.put('/pecas-agasalhos/<int:id>')
+def atualizar_agasalhos(id):
+    agasalhos = carregar('agasalhos.json')
+    dados_agasalhos = request.json
+    
+    for agasalho in agasalhos:
+        if agasalho.get("id") == id:
+            agasalho.update(dados_agasalhos)
+            salvar("agasalhos.json", agasalhos)
+            return jsonify({"mensagem":"Ok"}), 200
+    return jsonify({"mensagem":"Não encontrado"}), 404
+    
+@app.delete('/pecas-agasalhos/<int:id>')
+def deletar_agasalhos(id):
+    agasalhos = carregar('agasalhos.json')
+    for agasalho in agasalhos:
+        if agasalho.get("id")==id:
+            agasalhos.remove(agasalho)
+            salvar("agasalhos.json", agasalhos)
+            return jsonify({"mensagem":"deletado!"}),204
+    return jsonify({"mensagem":"Não encontrado!"}),404
 
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-"""
-Rota                    Método          Descrição
-/pecas                  GET             Filtro de pesquisa
-/pecas-camisas          GET             Listagem das Camisas
-/pecas-calcas           GET             Listagem das Calças
-/pecas-sapatos          GET             Listagem dos Sapatos
-/pecas-agasalhos        GET             Listagem dos Agasalhos
-/pecas-tudo             GET             Listagem de todas as roupas
+'''
+Rota                Método      Descrição                       Campos esperados                Validações necessárias                  Parâmetros                                                  Comportamento
+/                   GET         Página Inicial                  nenhum                          sem validação necessária                -----                                                       ------
+/pecas              GET         Filtro de pesquisa              nenhum                          sem validação necessária                -----                                                       ------
+/pecas-camisas      GET         Listagem das Camisas            nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
+/pecas-calcas       GET         Listagem das Calças             nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
+/pecas-sapatos      GET         Listagem dos Sapatos            nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
+/pecas-agasalhos    GET         Listagem dos Agasalhos          nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
+/pecas-tudo         GET         Listagem de todas as roupas     nenhum                          sem validação necessária                "cor", "sexo", "peca", "tamanho", "qualidade", "marca"      Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
 
+/pecas-camisas      POST        Cadastro Camisa                 Peça, Tamanho, Doador           tipo obrigatório, data string
+/pecas-camisas      POST        Cadastro Camisa                 Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
+/pecas-calcas       POST        Cadastro Calça                  Peça, Tamanho, Doador           tipo obrigatório, data string
+/pecas-calcas       POST        Cadastro Calça                  Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
+/pecas-sapatos      POST        Cadastro Sapato                 Peça, Tamanho, Doador           tipo obrigatório, data string
+/pecas-sapatos      POST        Cadastro Sapato                 Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
+/pecas-agasalhos    POST        Cadastro Agasalho               Peça, Tamanho, Doador           tipo obrigatório, data string
+/pecas-agasalhos    POST        Cadastro Agasalho               Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
 
-/pecas-camisas          POST            Cadastro Camisa
-/pecas-calcas           POST            Cadastro Calça
-/pecas-sapatos          POST            Cadastro Sapato
-/pecas-agasalhos        POST            Cadastro Agasalho
-"""
+/pecas-camisas/<id>         PUT         Atualização Camisa              peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser PP/P/M/G/GG      -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-camisas/<id>         PUT         Atualização Camisa              sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-calcas/<id>          PUT         Atualização Calça               peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser 34 ao 41         -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-calcas/<id>          PUT         Atualização Calça               sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-sapatos/<id>         PUT         Atualização Sapato              peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser 34 ao 41         -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-sapatos/<id>         PUT         Atualização Sapato              sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-agasalhos/<id>       PUT         Atualização Agasalho            peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser PP/P/M/G/GG      -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-agasalhos/<id>       PUT         Atualização Agasalho            sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
+
+/pecas-camisas/<id>         DELETE      Deletar Camisa                  nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-calcas/<id>          DELETE      Deletar Calça                   nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-sapatos/<id>         DELETE      Deletar Sapato                  nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
+/pecas-agasalhos/<id>       DELETE      Deletar Agasalho                nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
+
+'''
