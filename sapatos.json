@@ -1,20 +1,22 @@
 [
     {
-        "Peca": "Sapato",
-        "Sexo": "Masculino",
-        "Qualidade": "5/6",
-        "Tamanho": "40",
-        "Cor": "Azul",
-        "Marca": "Nike",
-        "Doador": "Clauber"
+        "id":1,
+        "peca": "Sapato",
+        "sexo": "Masculino",
+        "qualidade": "5/6",
+        "tamanho": "40",
+        "cor": "Azul",
+        "marca": "Nike",
+        "doador": "Clauber"
     },
     {
-        "Peca": "Sapato",
-        "Sexo": "Feminino",
-        "Qualidade": "6/6",
-        "Tamanho": "38",
-        "Cor": "Rosa",
-        "Marca": "Pumma",
-        "Doador": "Agatha"
+        "id":2,
+        "peca": "Sapato",
+        "sexo": "Feminino",
+        "qualidade": "6/6",
+        "tamanho": "38",
+        "cor": "Rosa",
+        "marca": "Pumma",
+        "doador": "Agatha"
     }
 ]
