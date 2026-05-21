@@ -1,38 +1,32 @@
 [
     {
-        "Peca": "Camisa",
-        "Sexo": "UniSex",
-        "Qualidade": "5/6",
-        "Tamanho": "P",
-        "Cor": "Azul",
-        "Marca": "Nike",
-        "Doador": "Regina"
+        "id":1,
+        "peca":"Camisa",
+        "sexo":"UniSex",
+        "qualidade":"5/6",
+        "tamanho":"P",
+        "cor":"Azul",
+        "marca":"Nike",
+        "doador":"Regina"
     },
     {
-        "Peca": "Camisa",
-        "Sexo": "Feminino",
-        "Qualidade": "6/6",
-        "Tamanho": "M",
-        "Cor": "Rosa",
-        "Marca": "Pumma",
-        "Doador": "Agatha"
+        "id":2,
+        "peca":"Camisa",
+        "sexo":"Masculino",
+        "qualidade":"6/6",
+        "tamanho":"M",
+        "cor":"Vermelho",
+        "marca":"Pumma",
+        "doador":"Agatha"
     },
     {
-        "Peca": "Camisa",
-        "Sexo": "Masculina",
-        "Qualidade": "6/6",
-        "Tamanho": "M",
-        "Cor": "Azul",
-        "Marca": "Pumma",
-        "Doador": "Gisele"
-    },
-    {
-        "Peca": "Camisa",
-        "Sexo": "Masculina",
-        "Qualidade": "6/6",
-        "Tamanho": "M",
-        "Cor": "Azul",
-        "Marca": "Pumma",
-        "Doador": "Gisele"
+        "id": 3,
+        "peca": "Camisa",
+        "sexo": "Masculino",
+        "qualidade": "6/6",
+        "tamanho": "M",
+        "cor": "Azul",
+        "marca": "Pumma",
+        "doador": "Saimon"
     }
 ]
