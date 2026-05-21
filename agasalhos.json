@@ -1,20 +1,22 @@
 [
     {
-        "Peca": "Agasalho",
-        "Sexo": "Masculino",
-        "Qualidade": "6/6",
-        "Tamanho": "G",
-        "Cor": "Azul",
-        "Marca": "Pumma",
-        "Doador": "Kleber"
+        "id": 1,
+        "peca": "Agasalho",
+        "sexo": "Feminino",
+        "qualidade": "6/6",
+        "tamanho": "G",
+        "cor": "Azul",
+        "marca": "Pumma",
+        "doador": "Kleber"
     },
     {
-        "Peca": "Agasalho",
-        "Sexo": "Unisex",
-        "Qualidade": "5/6",
-        "Tamanho": "P",
-        "Cor": "Preta",
-        "Marca": "Pumma",
-        "Doador": "Galvão"
+        "id": 2,
+        "peca": "Agasalho",
+        "sexo": "Unisex",
+        "qualidade": "5/6",
+        "tamanho": "P",
+        "cor": "Preta",
+        "marca": "Pumma",
+        "doador": "Galv\u00c3\u00a3o"
     }
 ]
