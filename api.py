@@ -55,6 +55,99 @@ def get_agasalhos_pr_id(id):
         
     return jsonify({"mensagem": "Agasalho não existe"}), 404
     
+@app.put('/pecas-camisas/<int:id>')
+def atualizar_camisa(id):
+    camisas = carregar('camisas.json')
+    dados_camisas = request.json
+
+    #validações
+
+    for camisa in camisas:
+        if camisa.get ("id")== id:
+            camisa.update(dados_camisas)
+            salvar("camisas.json", camisas)
+            return jsonify({"mensagem":"ok"}), 200
+    return jsonify({"mensagem":"não encontrado"}),404
+
+@app.delete('/pecas-camisas/<int:id>')
+def deletar_camisa(id):
+    camisas = carregar("camisas.json")
+
+    for camisa in camisas:
+        if camisa.get('id')==id:
+            camisas.remove(camisa)
+            salvar("camisas.json", camisas)
+            return jsonify({"mensagem":"Deletado"}), 200
+    return jsonify ({"mensagem":"Não encontrado"}), 404
+    
+@app.put('/pecas-calcas/<int:id>')
+def atualizar_calcas(id):
+    calcas = carregar('calcas.json')
+    dados_calcas = request.json
+    
+    for calca in calcas:
+        if calca.get("id") == id:
+            calca.update(dados_calcas)
+            salvar("calcas.json", calcas)
+            return jsonify({"mensagem":"Ok"}), 200
+    return jsonify({"mensagem":"Não encontrado"}), 404
+    
+@app.delete('/pecas-calcas/<int:id>')
+def deletar_calcas(id):
+    calcas = carregar('calcas.json')
+    for calca in calcas:
+        if calca.get("id")==id:
+            calcas.remove(calca)
+            salvar("calcas.json", calcas)
+            return jsonify({"mensagem":"deletado!"}),200
+    return jsonify({"mensagem":"Não encontrado!"}),404
+
+
+@app.put('/pecas-sapatos/<int:id>')
+def atualizar_sapatos(id):
+    sapatos = carregar('sapatos.json')
+    dados_sapatos = request.json
+    
+    for sapato in sapatos:
+        if sapato.get("id") == id:
+            sapato.update(dados_sapatos)
+            salvar("sapatos.json", sapatos)
+            return jsonify({"mensagem":"Ok"}), 200
+    return jsonify({"mensagem":"Não encontrado"}), 404
+    
+@app.delete('/pecas-sapatos/<int:id>')
+def deletar_sapatos(id):
+    sapatos = carregar('sapatos.json')
+    for sapato in sapatos:
+        if sapato.get("id")==id:
+            sapatos.remove(sapato)
+            salvar("sapatos.json", sapatos)
+            return jsonify({"mensagem":"deletado!"}),200
+    return jsonify({"mensagem":"Não encontrado!"}),404
+
+@app.put('/pecas-agasalhos/<int:id>')
+def atualizar_agasalhos(id):
+    agasalhos = carregar('agasalhos.json')
+    dados_agasalhos = request.json
+    
+    for agasalho in agasalhos:
+        if agasalho.get("id") == id:
+            agasalho.update(dados_agasalhos)
+            salvar("agasalhos.json", agasalhos)
+            return jsonify({"mensagem":"Ok"}), 200
+    return jsonify({"mensagem":"Não encontrado"}), 404
+    
+@app.delete('/pecas-agasalhos/<int:id>')
+def deletar_agasalhos(id):
+    agasalhos = carregar('agasalhos.json')
+    for agasalho in agasalhos:
+        if agasalho.get("id")==id:
+            agasalhos.remove(agasalho)
+            salvar("agasalhos.json", agasalhos)
+            return jsonify({"mensagem":"deletado!"}),204
+    return jsonify({"mensagem":"Não encontrado!"}),404
+
+    
 @app.post('/pecas-camisas')
 def criar_camisa():
     dados_camisa = request.json
@@ -77,7 +170,7 @@ def criar_camisa():
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
     if not isinstance('Peca', str):
-        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
+        return jsonify({"erro": "Cam    po 'Peca' é obrigatório ser nome."}),422
 
     if not isinstance('Doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
@@ -100,30 +193,29 @@ def criar_camisa():
 def criar_sapatos():
     dados_sapatos = request.json
 
-    tamanhos_sapato=['34','35','36','37','38','39','40','41']
-    if dados_sapatos.get ('Tamanho') not in tamanhos_sapato:
+    tamanhos_sapato=[34, 35, 36, 37, 38, 39, 40, 41]
+
+    if dados_sapatos is None:
+        return jsonify({"mensagem": "Campo Obrigatório"}),400
+
+    if int(dados_sapatos.get ('tamanho')) not in tamanhos_sapato:
         return jsonify({"mensagem": "Tamanho é inválido!"}), 422
 
-    if not dados_sapatos.get('Doador'):
+    if not dados_sapatos.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
 
-    if not dados_sapatos.get('Peca')=="Sapatos":
+    if not dados_sapatos.get('peca')=="Sapato":
         return jsonify({"mensagem" : "Nomear peça como sapato é obrigatório."}), 400
 
     with open ('sapatos.json', 'r') as f:
         sapatos = json.load(f)
 
-    if dados_sapatos is None:
-        return jsonify({"mensagem": "Campo Obrigatório"}),400
-
-    if not isinstance('Peca', str):
+    if not isinstance('peca', str):
         return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
 
-    if not isinstance('Doador', str):
+    if not isinstance('doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
 
-    if not isinstance('Tamanho', int):
-        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser numero."}),400
 
     sapatos.append(dados_sapatos)
 
@@ -141,13 +233,13 @@ def criar_agasalhos():
     dados_agasalhos = request.json
 
     tamanhos_agasalho=['PP','P','M','G','GG']
-    if not dados_agasalhos.get('Tamanho') not in tamanhos_agasalho:
+    if not dados_agasalhos.get('tamanho') not in tamanhos_agasalho:
         return jsonify({"mensagem": "Tamanho é inválido!"}), 422
 
-    if not dados_agasalhos.get('Doador'):
+    if not dados_agasalhos.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
 
-    if not dados_agasalhos.get('Peca')=='Agasalho':
+    if not dados_agasalhos.get('peca')=='Agasalho':
         return jsonify({"mensagem" : "Nomear peça como Agasalho é obrigatório."}), 400
 
     with open ('agasalhos.json', 'r') as f:
@@ -158,13 +250,13 @@ def criar_agasalhos():
     if dados_agasalhos is None:
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
-    if not isinstance('Peca', str):
+    if not isinstance('peca', str):
         return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
 
-    if not isinstance('Doador', str):
+    if not isinstance('doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
 
-    if not isinstance('Tamanho', str):
+    if not isinstance('tamanho', str):
         return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),400
 
     with open('agasalhos.json', 'w') as f:
@@ -180,14 +272,18 @@ def criar_agasalhos():
 def criar_calcas():
     dados_calcas = request.json
 
-    tamanho_calca=['34','35','36','37','38','39','40','41']
-    if dados_calcas.get('Tamanho') not in tamanho_calca:
+    tamanho_calca=[30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+
+    if dados_calcas is None:
+        return jsonify({"mensagem": "Campo Obrigatório"}),400
+
+    if int(dados_calcas.get('tamanho')) not in tamanho_calca:
         return jsonify({"mensagem": "Tamanho é inválido!"}), 422
 
-    if not dados_calcas.get('Doador'):
+    if not dados_calcas.get('doador'):
         return jsonify({"mensagem": "Nome do Doador é essencial."}), 400
     
-    if not dados_calcas.get('Peca')=='Calça':
+    if not dados_calcas.get('peca')=='Calça':
         return jsonify({"mensagem": "Nomear peça como calça é obrigatório."}), 400
 
     with open ('calcas.json', 'r') as f:
@@ -195,20 +291,15 @@ def criar_calcas():
 
     calcas.append(dados_calcas)
 
-    if dados_calcas is None:
-        return jsonify({"mensagem": "Campo Obrigatório"}),400
-
-    if not isinstance('Peca', str):
+    if not isinstance('peca', str):
         return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
 
-    if not isinstance('Doador', str):
+    if not isinstance('doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
-
-    if not isinstance('Tamanho', int):
-        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser numero."}),400
 
     with open ('calcas.json', 'w') as f:
         json.dump(calcas, f, indent=4)
+
 
     resposta= {
         "mensagem": "Calça cadastrada com sucesso!"
@@ -386,100 +477,6 @@ def page_tudo():
 
 
 
-
-@app.put('/pecas-camisas/<int:id>')
-def atualizar_camisa(id):
-    camisas = carregar('camisas.json')
-    dados_camisas = request.json
-
-    #validações
-
-    for camisa in camisas:
-        if camisa.get ("id")== id:
-            camisa.update(dados_camisas)
-            salvar("camisas.json", camisas)
-            return jsonify({"mensagem":"ok"}), 200
-    return jsonify({"mensagem":"não encontrado"}),404
-
-@app.delete('/pecas-camisas/<int:id>')
-def deletar_camisa(id):
-    camisas = carregar("camisas.json")
-
-    for camisa in camisas:
-        if camisa.get('id')==id:
-            camisas.remove(camisa)
-            salvar("camisas.json", camisas)
-            return jsonify({"mensagem":"Deletado"}), 200
-    return jsonify ({"mensagem":"Não encontrado"}), 404
-    
-@app.put('/pecas-calcas/<int:id>')
-def atualizar_calcas(id):
-    calcas = carregar('calcas.json')
-    dados_calcas = request.json
-    
-    for calca in calcas:
-        if calca.get("id") == id:
-            calca.update(dados_calcas)
-            salvar("calcas.json", calcas)
-            return jsonify({"mensagem":"Ok"}), 200
-    return jsonify({"mensagem":"Não encontrado"}), 404
-    
-@app.delete('/pecas-calcas/<int:id>')
-def deletar_calcas(id):
-    calcas = carregar('calcas.json')
-    for calca in calcas:
-        if calca.get("id")==id:
-            calcas.remove(calca)
-            salvar("calcas.json", calcas)
-            return jsonify({"mensagem":"deletado!"}),200
-    return jsonify({"mensagem":"Não encontrado!"}),404
-
-
-@app.put('/pecas-sapatos/<int:id>')
-def atualizar_sapatos(id):
-    sapatos = carregar('sapatos.json')
-    dados_sapatos = request.json
-    
-    for sapato in sapatos:
-        if sapato.get("id") == id:
-            sapato.update(dados_sapatos)
-            salvar("sapatos.json", sapatos)
-            return jsonify({"mensagem":"Ok"}), 200
-    return jsonify({"mensagem":"Não encontrado"}), 404
-    
-@app.delete('/pecas-sapatos/<int:id>')
-def deletar_sapatos(id):
-    sapatos = carregar('sapatos.json')
-    for sapato in sapatos:
-        if sapato.get("id")==id:
-            sapatos.remove(sapato)
-            salvar("sapatos.json", sapatos)
-            return jsonify({"mensagem":"deletado!"}),200
-    return jsonify({"mensagem":"Não encontrado!"}),404
-
-@app.put('/pecas-agasalhos/<int:id>')
-def atualizar_agasalhos(id):
-    agasalhos = carregar('agasalhos.json')
-    dados_agasalhos = request.json
-    
-    for agasalho in agasalhos:
-        if agasalho.get("id") == id:
-            agasalho.update(dados_agasalhos)
-            salvar("agasalhos.json", agasalhos)
-            return jsonify({"mensagem":"Ok"}), 200
-    return jsonify({"mensagem":"Não encontrado"}), 404
-    
-@app.delete('/pecas-agasalhos/<int:id>')
-def deletar_agasalhos(id):
-    agasalhos = carregar('agasalhos.json')
-    for agasalho in agasalhos:
-        if agasalho.get("id")==id:
-            agasalhos.remove(agasalho)
-            salvar("agasalhos.json", agasalhos)
-            return jsonify({"mensagem":"deletado!"}),204
-    return jsonify({"mensagem":"Não encontrado!"}),404
-
-
 if __name__ == "__main__":
     app.run(debug=True)
 
@@ -501,7 +498,7 @@ Rota                Método      Descrição                       Campos espera
 /pecas-sapatos      POST        Cadastro Sapato                 Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
 /pecas-agasalhos    POST        Cadastro Agasalho               Peça, Tamanho, Doador           tipo obrigatório, data string
 /pecas-agasalhos    POST        Cadastro Agasalho               Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
-
+    
 /pecas-camisas/<id>         PUT         Atualização Camisa              peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser PP/P/M/G/GG      -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
 /pecas-camisas/<id>         PUT         Atualização Camisa              sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
 /pecas-calcas/<id>          PUT         Atualização Calça               peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser 34 ao 41         -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
