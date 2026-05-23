@@ -18,5 +18,25 @@
         "cor": "Preta",
         "marca": "Pumma",
         "doador": "Galv\u00c3\u00a3o"
+    },
+    {
+        "id": 3,
+        "peca": "Agasalho",
+        "sexo": "Feminino",
+        "qualidade": "6/6",
+        "tamanho": 40,
+        "cor": "Azul",
+        "marca": "Pumma",
+        "doador": "Kleber"
+    },
+    {
+        "id": 4,
+        "peca": "Agasalho",
+        "sexo": "Feminino",
+        "qualidade": "6/6",
+        "tamanho": 40,
+        "cor": "Azul",
+        "marca": "Pumma",
+        "doador": "Kleber"
     }
 ]
