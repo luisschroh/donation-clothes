@@ -154,13 +154,13 @@ def criar_camisa():
 
 
     tamanhos_camisa= ['PP','P','M','G','GG']
-    if dados_camisa.get('Tamanho') not in tamanhos_camisa:
+    if dados_camisa.get('tamanho') not in tamanhos_camisa:
         return jsonify({"mensagem": "Tamanho inválido!"}), 422
     
-    if not dados_camisa.get('Doador'):
+    if not dados_camisa.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
 
-    if not dados_camisa.get('Peca')=="Camisa":
+    if not dados_camisa.get('peca')=="Camisa":
         return jsonify({"mensagem" : "Nomear peça como camisa é obrigatório."}), 422
 
     with open ('camisas.json', 'r') as f:
@@ -169,13 +169,13 @@ def criar_camisa():
     if dados_camisa is None:
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
-    if not isinstance('Peca', str):
-        return jsonify({"erro": "Cam    po 'Peca' é obrigatório ser nome."}),422
+    if not isinstance('peca', str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
 
-    if not isinstance('Doador', str):
+    if not isinstance('doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
 
-    if not isinstance('Tamanho', str):
+    if not isinstance('tamanho', str):
         return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),422
 
     camisas.append(dados_camisa)
@@ -193,13 +193,10 @@ def criar_camisa():
 def criar_sapatos():
     dados_sapatos = request.json
 
-    tamanhos_sapato=[34, 35, 36, 37, 38, 39, 40, 41]
+    tamanhos_sapato=["34", "35", "36", "37", "38", "39", "40", "41"]
 
-    if dados_sapatos is None:
-        return jsonify({"mensagem": "Campo Obrigatório"}),400
-
-    if int(dados_sapatos.get ('tamanho')) not in tamanhos_sapato:
-        return jsonify({"mensagem": "Tamanho é inválido!"}), 422
+    if dados_sapatos.get('tamanho') not in tamanhos_sapato:
+        return jsonify({"mensagem" : "Tamanho inválido!"}), 422
 
     if not dados_sapatos.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
@@ -210,11 +207,17 @@ def criar_sapatos():
     with open ('sapatos.json', 'r') as f:
         sapatos = json.load(f)
 
+    if dados_sapatos is None:
+        return jsoinfy({"mensagem": "Campo Obrigatório!"}), 400
+
     if not isinstance('peca', str):
         return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
 
     if not isinstance('doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+
+    if not isinstance('tamanho', str):
+        return jsonify({"mensagem": "Tamanho é inválido!"}), 422
 
 
     sapatos.append(dados_sapatos)
@@ -242,11 +245,6 @@ def criar_agasalhos():
     if not dados_agasalhos.get('peca')=='Agasalho':
         return jsonify({"mensagem" : "Nomear peça como Agasalho é obrigatório."}), 400
 
-    with open ('agasalhos.json', 'r') as f:
-        agasalhos = json.load(f)
-
-    agasalhos.append(dados_agasalhos)
-
     if dados_agasalhos is None:
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
@@ -258,6 +256,12 @@ def criar_agasalhos():
 
     if not isinstance('tamanho', str):
         return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),400
+
+
+    with open ('agasalhos.json', 'r') as f:
+        agasalhos = json.load(f)
+
+    agasalhos.append(dados_agasalhos)
 
     with open('agasalhos.json', 'w') as f:
         json.dump(agasalhos, f, indent=4)
@@ -272,13 +276,13 @@ def criar_agasalhos():
 def criar_calcas():
     dados_calcas = request.json
 
-    tamanho_calca=[30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+    tamanho_calca=["30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41"]
 
     if dados_calcas is None:
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
-    if int(dados_calcas.get('tamanho')) not in tamanho_calca:
-        return jsonify({"mensagem": "Tamanho é inválido!"}), 422
+    if dados_calcas.get('tamanho') not in dados_calcas:
+        return jsonify({"mensagem": "Tamanho inválido!"}), 422
 
     if not dados_calcas.get('doador'):
         return jsonify({"mensagem": "Nome do Doador é essencial."}), 400
@@ -286,16 +290,19 @@ def criar_calcas():
     if not dados_calcas.get('peca')=='Calça':
         return jsonify({"mensagem": "Nomear peça como calça é obrigatório."}), 400
 
-    with open ('calcas.json', 'r') as f:
-        calcas = json.load(f)
-
-    calcas.append(dados_calcas)
-
     if not isinstance('peca', str):
         return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
 
     if not isinstance('doador', str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+
+    if not isinstance('tamanho', str):
+        return jsonify({'erro': "Campo 'Tamanho' é obrigatório ser número"})
+
+    with open ('calcas.json', 'r') as f:
+        calcas = json.load(f)
+
+    calcas.append(dados_calcas)
 
     with open ('calcas.json', 'w') as f:
         json.dump(calcas, f, indent=4)
