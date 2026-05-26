@@ -169,14 +169,24 @@ def criar_camisa():
     if dados_camisa is None:
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
-    if not isinstance('peca', str):
+    if not isinstance(dados_camisas.get('peca'), str):
         return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
 
-    if not isinstance('doador', str):
+    if not isinstance(dados_camisas.get('doador'), str):
         return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
 
-    if not isinstance('tamanho', str):
+    if not isinstance(dados_camisas.get('tamanho'), str):
         return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),422
+
+    if not isinstance(dados_camisas.get('sexo'), str):
+        return jsonify({'erro': "Campo 'Sexo' é obrigatório ser nome"}), 422
+
+    if not isinstance(dados_camisas.get('marca'), str):
+        return jsonify({'erro': "Campo 'Marca' é obrigatório ser nome"}), 422
+    
+    if not isinstance(dados_camisas.get('cor'), str):
+        return jsonify({"erro": "Campo 'Cor' é obrigatório ser nome"}),422
+
 
     camisas.append(dados_camisa)
 
@@ -210,14 +220,24 @@ def criar_sapatos():
     if dados_sapatos is None:
         return jsoinfy({"mensagem": "Campo Obrigatório!"}), 400
 
-    if not isinstance('peca', str):
-        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
+    if not isinstance(dados_sapatos.get('peca'), str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
 
-    if not isinstance('doador', str):
-        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+    if not isinstance(dados_sapatos.get('doador'), str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
 
-    if not isinstance('tamanho', str):
+    if not isinstance(dados_sapatos.get('tamanho'), str):
         return jsonify({"mensagem": "Tamanho é inválido!"}), 422
+
+    if not isinstance(dados_sapatos.get('sexo'), str):
+        return jsonify({'erro': "Campo 'Sexo' é obrigatório ser nome"}), 422
+
+    if not isinstance(dados_sapatos.get('marca'), str):
+        return jsonify({'erro': "Campo 'Marca' é obrigatório ser nome"}), 422
+
+    if not isinstance(dados_sapatos.get('cor'), str):
+        return jsonify({"erro": "Campo 'Cor' é obrigatório ser nome"}),422
+
 
 
     sapatos.append(dados_sapatos)
@@ -248,14 +268,23 @@ def criar_agasalhos():
     if dados_agasalhos is None:
         return jsonify({"mensagem": "Campo Obrigatório"}),400
 
-    if not isinstance('peca', str):
-        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
+    if not isinstance(dados_agasalhos.get('peca'), str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
 
-    if not isinstance('doador', str):
-        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+    if not isinstance(dados_agasalhos.get('doador'), str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
 
-    if not isinstance('tamanho', str):
-        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),400
+    if not isinstance(dados_agasalhos.get('tamanho'), str):
+        return jsonify({"erro": "Campo 'Tamanho' é obrigatório ser nome."}),422
+
+    if not isinstance(dados_agasalhos.get('sexo'), str):
+        return jsonify({'erro': "Campo 'Sexo' é obrigatório ser nome"}), 422
+
+    if not isinstance(dados_agasalhos.get('marca'), str):
+        return jsonify({'erro': "Campo 'Marca' é obrigatório ser nome"}), 422
+
+    if not isinstance(dados_agasalhos.get('cor'), str):
+        return jsonify({"erro": "Campo 'Cor' é obrigatório ser nome"}),422
 
 
     with open ('agasalhos.json', 'r') as f:
@@ -290,14 +319,25 @@ def criar_calcas():
     if not dados_calcas.get('peca')=='Calça':
         return jsonify({"mensagem": "Nomear peça como calça é obrigatório."}), 400
 
-    if not isinstance('peca', str):
-        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),400
+    if not isinstance(dados_calcas.get('peca'), str):
+        return jsonify({"erro": "Campo 'Peca' é obrigatório ser nome."}),422
 
-    if not isinstance('doador', str):
-        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),400
+    if not isinstance(dados_calcas.get('doador'), str):
+        return jsonify({"erro": "Campo 'Doador' é obrigatório ser nome."}),422
 
-    if not isinstance('tamanho', str):
-        return jsonify({'erro': "Campo 'Tamanho' é obrigatório ser número"})
+    if not isinstance(dados_calcas.get('tamanho'), str):
+        return jsonify({'erro': "Campo 'Tamanho' é obrigatório ser número"}),422
+
+    if not isinstance(dados_calcas.get('sexo'), str):
+        return jsonify({'erro': "Campo 'Sexo' é obrigatório ser nome"}), 422
+
+    if not isinstance(dados_calcas.get('marca'), str):
+        return jsonify({'erro': "Campo 'Marca' é obrigatório ser nome"}), 422
+
+
+
+    if not isinstance(dados_calcas.get('cor'), str):
+        return jsonify({"erro": "Campo 'Cor' é obrigatório ser nome"}), 422
 
     with open ('calcas.json', 'r') as f:
         calcas = json.load(f)
