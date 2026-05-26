@@ -160,6 +160,15 @@ def criar_camisa():
     if not dados_camisa.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
 
+    if dados_camisa.get('cor') not in dados_camisa:
+        return jsonify({"mensagem": "Cor inválido!"}), 422
+
+    if dados_camisa.get('sexo') not in dados_camisa:
+        return jsonify({"mensagem": "Sexo inválido!"}), 422
+
+    if dados_camisa.get('qualidade') not in dados_camisa:
+        return jsonify({"mensagem": "Qualidade inválida!"}), 422
+
     if not dados_camisa.get('peca')=="Camisa":
         return jsonify({"mensagem" : "Nomear peça como camisa é obrigatório."}), 422
 
@@ -207,6 +216,15 @@ def criar_sapatos():
 
     if dados_sapatos.get('tamanho') not in tamanhos_sapato:
         return jsonify({"mensagem" : "Tamanho inválido!"}), 422
+
+    if dados_sapatos.get('cor') not in dados_sapatos:
+        return jsonify({"mensagem": "Cor inválido!"}), 422
+
+    if dados_sapatos.get('sexo') not in dados_sapatos:
+        return jsonify({"mensagem": "Sexo inválido!"}), 422
+
+    if dados_sapatos.get('qualidade') not in dados_sapatos:
+        return jsonify({"mensagem": "Qualidade inválida!"}), 422
 
     if not dados_sapatos.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
@@ -262,6 +280,15 @@ def criar_agasalhos():
     if not dados_agasalhos.get('doador'):
         return jsonify({"mensagem" : "Nome de Doador é necessário."}), 400
 
+    if dados_agasalhos.get('cor') not in dados_agasalhos:
+        return jsonify({"mensagem": "Cor inválido!"}), 422
+
+    if dados_agasalhos.get('sexo') not in dados_agasalhos:
+        return jsonify({"mensagem": "Sexo inválido!"}), 422
+
+    if dados_agasalhos.get('qualidade') not in dados_agasalhos:
+        return jsonify({"mensagem": "Qualidade inválida!"}), 422
+
     if not dados_agasalhos.get('peca')=='Agasalho':
         return jsonify({"mensagem" : "Nomear peça como Agasalho é obrigatório."}), 400
 
@@ -312,6 +339,15 @@ def criar_calcas():
 
     if dados_calcas.get('tamanho') not in dados_calcas:
         return jsonify({"mensagem": "Tamanho inválido!"}), 422
+
+    if dados_calcas.get('cor') not in dados_calcas:
+        return jsonify({"mensagem": "Cor inválido!"}), 422
+
+    if dados_calcas.get('sexo') not in dados_calcas:
+        return jsonify({"mensagem": "Sexo inválido!"}), 422
+
+    if dados_calcas.get('qualidade') not in dados_calcas:
+        return jsonify({"mensagem": "Qualidade inválida!"}), 422
 
     if not dados_calcas.get('doador'):
         return jsonify({"mensagem": "Nome do Doador é essencial."}), 400
