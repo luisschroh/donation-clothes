@@ -15,7 +15,7 @@ def salvar (arquivo, object):
     with open(arquivo, 'w') as f:
         json.dump(object, f, indent=4)
 
-@app.get('/pecas-camisas/<int:id>') # localhost/pecas-camisas/1
+@app.get('/pecas-camisas/<int:id>') 
 def get_camisa_pr_id(id):
     camisas = carregar('camisas.json')
 
@@ -402,7 +402,7 @@ def pecas():
 def page_camisas():
     camisas = carregar('camisas.json')
 
-    cor = request.args.get('cor') #https://.../pecas-camisas?cor...
+    cor = request.args.get('cor') 
     sexo = request.args.get('sexo')
     tamanho = request.args.get ('tamanho')
     qualidade = request.args.get ('qualidade')
@@ -435,7 +435,7 @@ def page_camisas():
 def page_calcas ():
     calcas = carregar('calcas.json')
 
-    cor = request.args.get('cor') #https://.../pecas-calcas?cor...
+    cor = request.args.get('cor') 
     sexo = request.args.get('sexo')
     tamanho = request.args.get ('tamanho')
     qualidade = request.args.get ('qualidade')
@@ -465,7 +465,7 @@ def page_calcas ():
 def page_sapatos():
     sapatos = carregar('sapatos.json')
 
-    cor = request.args.get('cor') #https://.../pecas-camisas?cor...
+    cor = request.args.get('cor') 
     sexo = request.args.get('sexo')
     tamanho = request.args.get ('tamanho')
     qualidade = request.args.get ('qualidade')
@@ -495,7 +495,7 @@ def page_sapatos():
 def page_agasalhos():
     agasalhos = carregar('agasalhos.json')
 
-    cor = request.args.get('cor') #https://.../pecas-camisas?cor...
+    cor = request.args.get('cor') 
     sexo = request.args.get('sexo')
     tamanho = request.args.get ('tamanho')
     qualidade = request.args.get ('qualidade')
