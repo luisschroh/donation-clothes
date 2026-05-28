@@ -142,7 +142,7 @@ def deletar_agasalhos(id):
         if agasalho.get("id")==id:
             agasalhos.remove(agasalho)
             salvar("agasalhos.json", agasalhos)
-            return jsonify({"mensagem":"deletado!"}),204
+            return jsonify({"mensagem":"deletado!"}),200
     return jsonify({"mensagem":"Não encontrado!"}),404
 
     
