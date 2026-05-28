@@ -60,8 +60,6 @@ def atualizar_camisa(id):
     camisas = carregar('camisas.json')
     dados_camisas = request.json
 
-    #validações
-
     for camisa in camisas:
         if camisa.get ("id")== id:
             camisa.update(dados_camisas)
