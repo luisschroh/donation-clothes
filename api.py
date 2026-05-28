@@ -562,38 +562,3 @@ def page_tudo():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-'''
-Rota                Método      Descrição                       Campos esperados                Validações necessárias                  Parâmetros                                                  Comportamento
-/                   GET         Página Inicial                  nenhum                          sem validação necessária                -----                                                       ------
-/pecas              GET         Filtro de pesquisa              nenhum                          sem validação necessária                -----                                                       ------
-/pecas-camisas      GET         Listagem das Camisas            nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
-/pecas-calcas       GET         Listagem das Calças             nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
-/pecas-sapatos      GET         Listagem dos Sapatos            nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
-/pecas-agasalhos    GET         Listagem dos Agasalhos          nenhum                          sem validação necessária                "cor", "sexo", "tamanho", "qualidade", "marca"              Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
-/pecas-tudo         GET         Listagem de todas as roupas     nenhum                          sem validação necessária                "cor", "sexo", "peca", "tamanho", "qualidade", "marca"      Retorna os Objetos que correspondem ao "=" do parâmetro (200), caso não encontre retorna "[]"
-
-/pecas-camisas      POST        Cadastro Camisa                 Peça, Tamanho, Doador           tipo obrigatório, data string
-/pecas-camisas      POST        Cadastro Camisa                 Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
-/pecas-calcas       POST        Cadastro Calça                  Peça, Tamanho, Doador           tipo obrigatório, data string
-/pecas-calcas       POST        Cadastro Calça                  Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
-/pecas-sapatos      POST        Cadastro Sapato                 Peça, Tamanho, Doador           tipo obrigatório, data string
-/pecas-sapatos      POST        Cadastro Sapato                 Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
-/pecas-agasalhos    POST        Cadastro Agasalho               Peça, Tamanho, Doador           tipo obrigatório, data string
-/pecas-agasalhos    POST        Cadastro Agasalho               Sexo, Qualidade, Cor, Marca     tipo não obrigatório, data string
-    
-/pecas-camisas/<id>         PUT         Atualização Camisa              peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser PP/P/M/G/GG      -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-camisas/<id>         PUT         Atualização Camisa              sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-calcas/<id>          PUT         Atualização Calça               peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser 34 ao 41         -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-calcas/<id>          PUT         Atualização Calça               sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-sapatos/<id>         PUT         Atualização Sapato              peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser 34 ao 41         -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-sapatos/<id>         PUT         Atualização Sapato              sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-agasalhos/<id>       PUT         Atualização Agasalho            peca, tamanho, doador           tipo não obrigatório, data string, tamanho deve ser PP/P/M/G/GG      -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-agasalhos/<id>       PUT         Atualização Agasalho            sexo, qualidade, cor, marca     tipo não obrigatório, data string                                    -----                          Atualiza o objeto com o id informado (200), caso não encontre retorna 404
-
-/pecas-camisas/<id>         DELETE      Deletar Camisa                  nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-calcas/<id>          DELETE      Deletar Calça                   nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-sapatos/<id>         DELETE      Deletar Sapato                  nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
-/pecas-agasalhos/<id>       DELETE      Deletar Agasalho                nenhum                          sem validação necessária                -----                                                       Deleta o objeto com o id informado (200), caso não encontre retorna 404
-
-'''
